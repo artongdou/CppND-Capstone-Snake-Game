@@ -1,5 +1,8 @@
 #include "controller.h"
+#include "message.h"
+
 #include <iostream>
+
 #include "SDL.h"
 #include "snake.h"
 
@@ -9,11 +12,12 @@ void Controller::ChangeDirection(Snake &snake, Snake::Direction input,
   return;
 }
 
-void Controller::HandleInput(bool &running, Snake &snake) const {
+void Controller::HandleInput(bool &restart, bool &running, Snake &snake) const {
   SDL_Event e;
   while (SDL_PollEvent(&e)) {
     if (e.type == SDL_QUIT) {
       running = false;
+      std::cout << "Quit" << std::endl;
     } else if (e.type == SDL_KEYDOWN) {
       switch (e.key.keysym.sym) {
         case SDLK_UP:
@@ -34,6 +38,19 @@ void Controller::HandleInput(bool &running, Snake &snake) const {
         case SDLK_RIGHT:
           ChangeDirection(snake, Snake::Direction::kRight,
                           Snake::Direction::kLeft);
+          break;
+        case SDLK_ESCAPE:
+          EscapeMessageBox msgBox;
+          int button_id = msgBox.show();
+          if (button_id == -1) {
+            SDL_Log("no selection");
+          } else if (button_id == 0) {
+            std::cout << "End button hit" << std::endl;
+            running = false;
+          } else {
+            std::cout << "Restart button hit" << std::endl;
+            restart = true;
+          }
           break;
       }
     }
