@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-int EscapeMessageBox::show() const {
+int EscapeMessageBox::Show() const {
   int button_id;
   if (SDL_ShowMessageBox(&_boxData, &button_id) < 0) {
     SDL_Log("error displaying message box");

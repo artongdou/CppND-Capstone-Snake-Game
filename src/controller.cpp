@@ -1,55 +1,54 @@
 #include "controller.h"
-#include "message.h"
 
+#include <future>
 #include <iostream>
 
 #include "SDL.h"
+#include "message.h"
 #include "snake.h"
 
-void Controller::ChangeDirection(Snake &snake, Snake::Direction input,
-                                 Snake::Direction opposite) const {
-  if (snake.direction != opposite || snake.size == 1) snake.direction = input;
-  return;
-}
+// void Controller::ChangeDirection(Snake &snake, Snake::Direction input,
+//                                  Snake::Direction opposite) const {
+//   if (snake.direction != opposite || snake.size == 1) snake.direction =
+//   input; return;
+// }
 
-void Controller::HandleInput(bool &restart, bool &running, Snake &snake) const {
+void Controller::HandleInput() const {
   SDL_Event e;
   while (SDL_PollEvent(&e)) {
+    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    std::cout << "Polling events..." << std::endl;
     if (e.type == SDL_QUIT) {
-      running = false;
+      _pGame->EndGame();
       std::cout << "Quit" << std::endl;
     } else if (e.type == SDL_KEYDOWN) {
       switch (e.key.keysym.sym) {
         case SDLK_UP:
-          ChangeDirection(snake, Snake::Direction::kUp,
-                          Snake::Direction::kDown);
+          _pSnake->ChangeDirection(Snake::Direction::kUp);
           break;
 
         case SDLK_DOWN:
-          ChangeDirection(snake, Snake::Direction::kDown,
-                          Snake::Direction::kUp);
+          _pSnake->ChangeDirection(Snake::Direction::kDown);
           break;
 
         case SDLK_LEFT:
-          ChangeDirection(snake, Snake::Direction::kLeft,
-                          Snake::Direction::kRight);
+          _pSnake->ChangeDirection(Snake::Direction::kLeft);
           break;
 
         case SDLK_RIGHT:
-          ChangeDirection(snake, Snake::Direction::kRight,
-                          Snake::Direction::kLeft);
+          _pSnake->ChangeDirection(Snake::Direction::kRight);
           break;
         case SDLK_ESCAPE:
           EscapeMessageBox msgBox;
-          int button_id = msgBox.show();
+          int button_id = msgBox.Show();
           if (button_id == -1) {
             SDL_Log("no selection");
           } else if (button_id == 0) {
             std::cout << "End button hit" << std::endl;
-            running = false;
+            _pGame->EndGame();
           } else {
             std::cout << "Restart button hit" << std::endl;
-            restart = true;
+            _pGame->RestartGame();
           }
           break;
       }

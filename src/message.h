@@ -7,12 +7,12 @@
 
 class MessageBox {
  public:
-  virtual int show() const = 0;
+  virtual int Show() const = 0;
 };
 
 class EscapeMessageBox : public MessageBox {
  public:
-    int show() const override;
+    int Show() const override;
  private:
   const SDL_MessageBoxData _boxData = {
       SDL_MESSAGEBOX_INFORMATION, /* .flags */

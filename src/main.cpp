@@ -1,4 +1,6 @@
+#include <future>
 #include <iostream>
+
 #include "controller.h"
 #include "game.h"
 #include "renderer.h"
@@ -12,11 +14,11 @@ int main() {
   constexpr std::size_t kGridHeight{32};
 
   Renderer renderer(kScreenWidth, kScreenHeight, kGridWidth, kGridHeight);
+  std::cout << "Renderer address: " << &renderer << std::endl;
   Controller controller;
-  std::unique_ptr<Game> pGame;
-  do {
-    pGame = std::make_unique<Game>(kGridWidth, kGridHeight);
-  } while (pGame->Run(controller, renderer, kMsPerFrame));
+  auto pGame = std::make_unique<Game>(kGridWidth, kGridHeight,
+                                      std::ref(controller), std::ref(renderer));
+  pGame->Run(kMsPerFrame);
   std::cout << "Game has terminated successfully!\n";
   std::cout << "Score: " << pGame->GetScore() << "\n";
   std::cout << "Size: " << pGame->GetSize() << "\n";
