@@ -20,7 +20,7 @@ int main() {
     pGame = std::make_unique<Game>(kGridWidth, kGridHeight,
                                    std::ref(controller), std::ref(renderer));
   } while (pGame->Run(kMsPerFrame));
-  
+
   std::cout << "Game has terminated successfully!\n";
   std::cout << "=================================\n";
   std::cout << "Final Score: " << pGame->GetScore() << "\n";

@@ -1,11 +1,11 @@
 #ifndef SNAKE_H
 #define SNAKE_H
 
+#include <future>
 #include <mutex>
 #include <shared_mutex>
 #include <unordered_map>
 #include <vector>
-#include <future>
 
 #include "SDL.h"
 
@@ -28,7 +28,7 @@ class Snake {
   void ChangeDirection(Direction);
   void IncreaseSpeed(float deltaSpd);
   bool SnakeCell(int x, int y);
-  void KillSnake() {_alive = false;}
+  void KillSnake() { _alive = false; }
   bool IsAlive() const;
   void GetHead(int &x, int &y) const;
   std::vector<SDL_Point> GetBody() const;

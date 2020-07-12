@@ -14,8 +14,8 @@ class Controller {
  private:
   void ChangeDirection(Snake &snake, Snake::Direction input,
                        Snake::Direction opposite) const;
-  Snake *_pSnake;
-  Game *_pGame;
+  Snake *_pSnake; // store the pointer to Snake that it controls
+  Game *_pGame;// store the pointer to Game
 };
 
 #endif

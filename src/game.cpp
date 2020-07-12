@@ -57,7 +57,6 @@ bool Game::Run(std::size_t target_frame_duration) {
     if (frame_duration < target_frame_duration) {
       SDL_Delay(target_frame_duration - frame_duration);
     }
-    // running = false;
   }
   std::cout << "log: Waiting for Snake to terminate" << std::endl;
   fut_snake.wait();
@@ -81,10 +80,6 @@ void Game::PlaceFood() {
 }
 
 void Game::Update() {
-  // if (!_pSnake->IsAlive()) return;
-
-  // _pSnake->Update();
-
   int new_x, new_y;
   _pSnake->GetHead(new_x, new_y);
 
