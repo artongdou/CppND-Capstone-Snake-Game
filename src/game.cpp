@@ -18,15 +18,7 @@ Game::Game(std::size_t grid_width, std::size_t grid_height,
   PlaceFood();
 }
 
-void Game::Start(std::size_t target_frame_duration) {
-  // std::cout << "Game started" << std::endl;
-  // auto fut = std::async(&Game::Run, this, target_frame_duration);
-  // _pSnake->Start(); // Spawn snake
-  // // _controller
-  // fut.get();
-}
-
-void Game::Run(std::size_t target_frame_duration) {
+bool Game::Run(std::size_t target_frame_duration) {
   Uint32 title_timestamp = SDL_GetTicks();
   Uint32 frame_start;
   Uint32 frame_end;
@@ -34,11 +26,10 @@ void Game::Run(std::size_t target_frame_duration) {
   int frame_count = 0;
 
   auto fut_snake = _pSnake->Start(target_frame_duration);
-  std::cout << "Snake has been spawned" << std::endl;
+  std::cout << "log: Snake has been spawned" << std::endl;
   // _controller.Start();
 
   while (_running && !_restart) {
-    std::cout << "Game running..." << std::endl;
     frame_start = SDL_GetTicks();
 
     // Input, Update, Render - the main game loop.
@@ -68,7 +59,10 @@ void Game::Run(std::size_t target_frame_duration) {
     }
     // running = false;
   }
-  // return restart;
+  std::cout << "log: Waiting for Snake to terminate" << std::endl;
+  fut_snake.wait();
+  std::cout << "log: Snake is dead" << std::endl;
+  return _restart;
 }
 
 void Game::PlaceFood() {
@@ -81,7 +75,6 @@ void Game::PlaceFood() {
     if (!_pSnake->SnakeCell(x, y)) {
       food.x = x;
       food.y = y;
-      std::cout << "food: (" << x << "," << y << ")" << std::endl;
       return;
     }
   }

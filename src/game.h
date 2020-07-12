@@ -14,10 +14,9 @@ class Game {
  public:
   Game(std::size_t grid_width, std::size_t grid_height, Controller &controller,
        Renderer &renderer);
-  void Start(std::size_t target_frame_duration);
-  void Run(std::size_t target_frame_duration);
+  bool Run(std::size_t target_frame_duration);
   void EndGame() {_running = false; _pSnake->KillSnake();}
-  void RestartGame() {_restart = false; _pSnake->KillSnake();}
+  void RestartGame() {_restart = true; _pSnake->KillSnake();}
   int GetScore() const;
   int GetSize() const;
 

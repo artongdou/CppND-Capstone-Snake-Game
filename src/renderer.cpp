@@ -39,7 +39,6 @@ Renderer::~Renderer() {
 }
 
 void Renderer::Render(const Snake *pSnake, SDL_Point const &food) const {
-  std::cout << this << std::endl;
   SDL_Rect block;
   block.w = screen_width / grid_width;
   block.h = screen_height / grid_height;
@@ -65,7 +64,6 @@ void Renderer::Render(const Snake *pSnake, SDL_Point const &food) const {
   // Render snake's head
   int head_x, head_y;
   pSnake->GetHead(head_x, head_y);
-  std::cout << "Head:" << head_x << " " << head_y << std::endl;
   block.x = head_x * block.w;
   block.y = head_y * block.h;
   if (pSnake->IsAlive()) {

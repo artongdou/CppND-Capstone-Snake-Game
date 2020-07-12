@@ -16,11 +16,9 @@
 void Controller::HandleInput() const {
   SDL_Event e;
   while (SDL_PollEvent(&e)) {
-    std::this_thread::sleep_for(std::chrono::milliseconds(1));
-    std::cout << "Polling events..." << std::endl;
     if (e.type == SDL_QUIT) {
       _pGame->EndGame();
-      std::cout << "Quit" << std::endl;
+      std::cout << "log: Window closed" << std::endl;
     } else if (e.type == SDL_KEYDOWN) {
       switch (e.key.keysym.sym) {
         case SDLK_UP:
@@ -44,10 +42,10 @@ void Controller::HandleInput() const {
           if (button_id == -1) {
             SDL_Log("no selection");
           } else if (button_id == 0) {
-            std::cout << "End button hit" << std::endl;
+            std::cout << "log: End button hit" << std::endl;
             _pGame->EndGame();
           } else {
-            std::cout << "Restart button hit" << std::endl;
+            std::cout << "log: Restart button hit" << std::endl;
             _pGame->RestartGame();
           }
           break;
